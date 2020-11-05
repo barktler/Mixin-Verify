@@ -9,7 +9,7 @@ import { StringedResult, Verifier } from "@sudoo/verify";
 
 export type StringedVerifyMixinOptions = {
 
-    readonly onFailed?: (result: StringedResult) => void;
+    readonly onFailed?: (result: StringedResult) => any;
 };
 
 export const createStringedVerifyMixin: (options?: Partial<StringedVerifyMixinOptions>) => BarktlerMixin = (options?: Partial<StringedVerifyMixinOptions>) => {
