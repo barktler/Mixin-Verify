@@ -1,0 +1,42 @@
+{
+  "name": "@barktler/mixin-verify",
+  "version": "1.0.0",
+  "description": ":angel: Verify mixin for Barktler",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barktler/Mixin-Verify.git"
+  },
+  "keywords": [
+    "API"
+  ],
+  "author": "WMXPY",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/barktler/Mixin-Verify/issues"
+  },
+  "homepage": "https://github.com/barktler/Mixin-Verify#readme",
+  "peerDependencies": {
+    "@barktler/core": "*"
+  },
+  "devDependencies": {
+    "@barktler/core": "2.5.0",
+    "@barktler/driver-mock": "^2.0.0",
+    "@sudoo/io": "^1.8.0",
+    "@sudoo/triforce": "^2.9.6"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "src/**/*.ts"
+    ],
+    "instrument": true,
+    "reporter": [
+      "json",
+      "text-summary"
+    ],
+    "report-dir": "coverage",
+    "sourceMap": true
+  }
+}
