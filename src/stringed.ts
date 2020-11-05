@@ -1,20 +1,20 @@
 /**
  * @author WMXPY
  * @namespace Verify
- * @description Verify
+ * @description Stringed
  */
 
 import { Barktler, BarktlerMixin, IRequestConfig } from "@barktler/core";
-import { Verifier, VerifyResult } from "@sudoo/verify";
+import { StringedResult, Verifier } from "@sudoo/verify";
 
-export type VerifyMixinOptions = {
+export type StringedVerifyMixinOptions = {
 
-    readonly onFailed?: (result: VerifyResult) => void;
+    readonly onFailed?: (result: StringedResult) => void;
 };
 
-export const createVerifyMixin: (options?: Partial<VerifyMixinOptions>) => BarktlerMixin = (options?: Partial<VerifyMixinOptions>) => {
+export const createStringedVerifyMixin: (options?: Partial<StringedVerifyMixinOptions>) => BarktlerMixin = (options?: Partial<StringedVerifyMixinOptions>) => {
 
-    const mergedOptions: VerifyMixinOptions = {
+    const mergedOptions: StringedVerifyMixinOptions = {
         ...options,
     };
 
@@ -27,7 +27,7 @@ export const createVerifyMixin: (options?: Partial<VerifyMixinOptions>) => Barkt
             }
 
             const verifier: Verifier = Verifier.create(request.requestBodyPattern);
-            const verifyResult: VerifyResult = verifier.verify(request.body);
+            const verifyResult: StringedResult = verifier.conclude(request.body);
 
             if (verifyResult.succeed) {
                 return true;
