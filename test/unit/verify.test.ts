@@ -45,4 +45,18 @@ describe('Given [createVerifyMixin] function', (): void => {
             ],
         });
     });
+
+    it('should be able to verify body - happy path', async (): Promise<void> => {
+
+        let verifyResult: VerifyResult | undefined;
+
+        const api: ExampleAPI = new ExampleAPI();
+        api.useMixin(createVerifyMixin({
+            onFailed: (result: VerifyResult) => verifyResult = result,
+        }));
+
+        await api.fetchWithBody(chance.string());
+
+        expect(verifyResult).to.be.undefined;
+    });
 });

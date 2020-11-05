@@ -44,4 +44,15 @@ export class ExampleAPI extends Barktler<any, ExampleAPIResponse> {
             method: 'GET',
         });
     }
+
+    public async fetchWithBody(value: string): Promise<ExampleAPIResponse> {
+
+        return await this._requestForData({
+            url: 'example.com',
+            method: 'GET',
+            body: {
+                hello: value,
+            },
+        });
+    }
 }
