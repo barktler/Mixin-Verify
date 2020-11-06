@@ -8,10 +8,10 @@ import { Pattern } from "@sudoo/pattern";
 import { AsyncVerifyFunction } from "@sudoo/processor";
 import { StringedResult, Verifier, VerifyResult } from "@sudoo/verify";
 
-export const createStringedVerifyHook = <T>(
+export const createMixinVerifyHook = <T>(
     getPattern: (target: T) => Pattern | undefined,
     getValueFunction: (target: T) => any,
-    onFailed?: (result: VerifyResult) => any
+    ...onFailedFunctions: Array<(result: VerifyResult) => any>
 ): AsyncVerifyFunction<T> => {
 
     return async (value: T): Promise<boolean> => {
@@ -28,8 +28,8 @@ export const createStringedVerifyHook = <T>(
             return true;
         }
 
-        if (typeof onFailed === 'function') {
-            onFailed(verifyResult);
+        for (const onFailedFunction of onFailedFunctions) {
+            onFailedFunction(verifyResult);
         }
         return false;
     };
@@ -38,7 +38,7 @@ export const createStringedVerifyHook = <T>(
 export const createMixinStringedVerifyHook = <T>(
     getPattern: (target: T) => Pattern | undefined,
     getValueFunction: (target: T) => any,
-    onFailed?: (result: StringedResult) => any
+    ...onFailedFunctions: Array<(result: StringedResult) => any>
 ): AsyncVerifyFunction<T> => {
 
     return async (value: T): Promise<boolean> => {
@@ -55,8 +55,8 @@ export const createMixinStringedVerifyHook = <T>(
             return true;
         }
 
-        if (typeof onFailed === 'function') {
-            onFailed(verifyResult);
+        for (const onFailedFunction of onFailedFunctions) {
+            onFailedFunction(verifyResult);
         }
         return false;
     };
