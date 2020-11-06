@@ -23,7 +23,7 @@
     "@sudoo/verify": "^1.16.0"
   },
   "devDependencies": {
-    "@barktler/core": "2.5.0",
+    "@barktler/core": "2.6.0",
     "@barktler/driver-mock": "^2.0.0",
     "@sudoo/io": "^1.8.0",
     "@sudoo/pattern": "^1.6.1",
