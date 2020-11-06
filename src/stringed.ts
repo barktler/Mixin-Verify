@@ -5,7 +5,8 @@
  */
 
 import { Barktler, BarktlerMixin, IRequestConfig } from "@barktler/core";
-import { StringedResult, Verifier } from "@sudoo/verify";
+import { StringedResult } from "@sudoo/verify";
+import { createMixinStringedVerifyHook } from "./hook";
 
 export type StringedVerifyMixinOptions = {
 
@@ -20,23 +21,10 @@ export const createStringedVerifyMixin: (options?: Partial<StringedVerifyMixinOp
 
     return (instance: Barktler) => {
 
-        instance.preHook.verifier.add(async (request: IRequestConfig): Promise<boolean> => {
-
-            if (!request.requestBodyPattern) {
-                return true;
-            }
-
-            const verifier: Verifier = Verifier.create(request.requestBodyPattern);
-            const verifyResult: StringedResult = verifier.conclude(request.body);
-
-            if (verifyResult.succeed) {
-                return true;
-            }
-
-            if (typeof mergedOptions.onFailed === 'function') {
-                mergedOptions.onFailed(verifyResult);
-            }
-            return false;
-        });
+        instance.preHook.verifier.add(createMixinStringedVerifyHook(
+            (request: IRequestConfig) => request.requestBodyPattern,
+            (request: IRequestConfig) => request.body,
+            mergedOptions.onFailed,
+        ));
     };
 };
