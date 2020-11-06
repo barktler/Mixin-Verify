@@ -8,10 +8,13 @@ import { Pattern } from "@sudoo/pattern";
 import { AsyncVerifyFunction } from "@sudoo/processor";
 import { StringedResult, Verifier, VerifyResult } from "@sudoo/verify";
 
+export type FailedFunction = (result: VerifyResult) => any;
+export type StringedFailedFunction = (result: StringedResult) => any;
+
 export const createMixinVerifyHook = <T>(
     getPattern: (target: T) => Pattern | undefined,
     getValueFunction: (target: T) => any,
-    ...onFailedFunctions: Array<(result: VerifyResult) => any>
+    ...onFailedFunctions: Array<FailedFunction | undefined>
 ): AsyncVerifyFunction<T> => {
 
     return async (value: T): Promise<boolean> => {
@@ -29,7 +32,9 @@ export const createMixinVerifyHook = <T>(
         }
 
         for (const onFailedFunction of onFailedFunctions) {
-            onFailedFunction(verifyResult);
+            if (typeof onFailedFunction === 'function') {
+                onFailedFunction(verifyResult);
+            }
         }
         return false;
     };
@@ -38,7 +43,7 @@ export const createMixinVerifyHook = <T>(
 export const createMixinStringedVerifyHook = <T>(
     getPattern: (target: T) => Pattern | undefined,
     getValueFunction: (target: T) => any,
-    ...onFailedFunctions: Array<(result: StringedResult) => any>
+    ...onFailedFunctions: Array<StringedFailedFunction | undefined>
 ): AsyncVerifyFunction<T> => {
 
     return async (value: T): Promise<boolean> => {
@@ -56,7 +61,9 @@ export const createMixinStringedVerifyHook = <T>(
         }
 
         for (const onFailedFunction of onFailedFunctions) {
-            onFailedFunction(verifyResult);
+            if (typeof onFailedFunction === 'function') {
+                onFailedFunction(verifyResult);
+            }
         }
         return false;
     };
